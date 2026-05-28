@@ -42,10 +42,36 @@ void CPU::execute(uint8_t opcode, Memory& mem) {
             break;
         }
 
+        case 0x85: { // STA Zero Page - Store A into memory
+             uint8_t address = fetch(mem);
+             mem.write(address, A);
+            break;
+        }
+
+        case 0xA5: { // LDA Zero Page - Load A from memory
+             uint8_t address = fetch(mem);
+              A = mem.read(address);
+             flags.Z = (A == 0);
+              flags.N = (A & 0x80) != 0;
+             break;
+        }
+
+        case 0x69: { // ADC Immediate - Add value to A
+            uint8_t value = fetch(mem);
+            uint16_t result = A + value + flags.C;
+            flags.C = result > 0xFF;
+            flags.Z = (result & 0xFF) == 0;
+            flags.N = (result & 0x80) != 0;
+            flags.V = (~(A ^ value) & (A ^ result) & 0x80) != 0;
+            A = result & 0xFF;
+            break;
+        }
+
         default:
             std::cout << "Unknown opcode: 0x" 
                       << std::hex << (int)opcode << "\n";
             break;
+        
     }
 }
 
