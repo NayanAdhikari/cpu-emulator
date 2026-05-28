@@ -3,6 +3,7 @@
 #include "memory.h"
 
 struct CPU {
+    bool isHalted = false;
     // Registers
     uint8_t  A  = 0;   // Accumulator
     uint8_t  X  = 0;   // Index Register X

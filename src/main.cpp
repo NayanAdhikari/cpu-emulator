@@ -16,13 +16,14 @@ int main() {
     mem.write(0x0204, 0x00); // BRK
 
     // Run until BRK
-    for (int i = 0; i < 10; i++) {
-        cpu.step(mem);
+   while (!cpu.isHalted) {
+    cpu.step(mem);
+    if (!cpu.isHalted) {
         std::cout << "A=" << (int)cpu.A 
                   << " X=" << (int)cpu.X 
                   << " PC=" << std::hex << cpu.PC << "\n";
-        if (cpu.PC == 0x0204) break;
     }
+}
 
     return 0;
 }

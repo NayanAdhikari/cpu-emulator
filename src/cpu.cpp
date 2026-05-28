@@ -38,7 +38,7 @@ void CPU::execute(uint8_t opcode, Memory& mem) {
 
         case 0x00: { // BRK — Break / halt
             std::cout << "[BRK] Program halted.\n";
-            PC--; // Freeze the PC
+            isHalted = true; // Freeze the PC
             break;
         }
 

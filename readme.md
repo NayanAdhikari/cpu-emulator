@@ -42,7 +42,7 @@ CPUEmulator/
 
 ## How to Build & Run
 
-**Requirements:** g++ with C++17 support
+**Requirements:** g++ with C++17 support and i hope gdb is working on your computer
 
 ```bash
 git clone https://github.com/NayanAdhikari/cpu-emulator.git
