@@ -23,7 +23,14 @@ int main() {
     mem.write(0x0206, 0xA5); // LDA $20 (load from address 0x20)
     mem.write(0x0207, 0x20);
     mem.write(0x0208, 0x00); // BRK
-
+    mem.write(0x0200, 0xA9); // LDA #5
+    mem.write(0x0201, 0x05);
+    mem.write(0x0202, 0xAA); // TAX
+    mem.write(0x0203, 0xCA); // DEX
+    mem.write(0x0204, 0xC8); // INY
+    mem.write(0x0205, 0x88); // DEY
+    mem.write(0x0206, 0x00); // BRK
+    
     // Run until BRK
    while (!cpu.isHalted) {
     cpu.step(mem);

@@ -67,6 +67,27 @@ void CPU::execute(uint8_t opcode, Memory& mem) {
             break;
         }
 
+                case 0xC8: { // INY — Increment Y
+            Y++;
+            flags.Z = (Y == 0);
+            flags.N = (Y & 0x80) != 0;
+            break;
+        }
+
+        case 0x88: { // DEY — Decrement Y
+            Y--;
+            flags.Z = (Y == 0);
+            flags.N = (Y & 0x80) != 0;
+            break;
+        }
+
+        case 0xCA: { // DEX — Decrement X
+            X--;
+            flags.Z = (X == 0);
+            flags.N = (X & 0x80) != 0;
+            break;
+        }
+
         default:
             std::cout << "Unknown opcode: 0x" 
                       << std::hex << (int)opcode << "\n";
