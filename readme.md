@@ -1,10 +1,10 @@
-# 🖥️ CPU Emulator
+CPU Emulator
 
 A low-level CPU emulator written in C++ that models the core architecture of a 6502-inspired 8-bit processor. Built from scratch as a personal project to deepen my understanding of computer architecture and help me study for good eats.
 
 ---
 
-## What It Does
+What It Does
 
 This emulator models the fundamental **fetch → decode → execute** cycle of a real CPU, including:
 
@@ -15,7 +15,7 @@ This emulator models the fundamental **fetch → decode → execute** cycle of a
 
 ---
 
-## Implemented Opcodes
+Implemented Opcodes
 
 | Opcode | Mnemonic | Description |
 |--------|----------|-------------|
@@ -26,7 +26,7 @@ This emulator models the fundamental **fetch → decode → execute** cycle of a
 
 ---
 
-## Project Structure
+Project Structure
 
 ```
 CPUEmulator/
@@ -40,7 +40,7 @@ CPUEmulator/
 
 ---
 
-## How to Build & Run
+How to Build & Run
 
 **Requirements:** g++ with C++17 support and i hope gdb is working on your computer
 
@@ -52,7 +52,7 @@ g++ src/main.cpp src/cpu.cpp src/memory.cpp -o emulator -Wall -Wextra -std=c++17
 ./emulator       # Mac/Linux
 ```
 
-**Expected output:**
+Expected output:
 ```
 A=5 X=0 PC=202
 A=5 X=5 PC=203
@@ -61,7 +61,7 @@ A=5 X=6 PC=204
 
 ---
 
-## What I Learned
+What I Learned
 
 - How a CPU's fetch → decode → execute cycle works at the hardware level
 - Modeling memory and registers using fixed-width integer types (`uint8_t`, `uint16_t`)
@@ -71,7 +71,7 @@ A=5 X=6 PC=204
 
 ---
 
-## Roadmap
+Roadmap
 
 - [ ] Implement the full 6502 instruction set (~56 opcodes)
 - [ ] Add all 13 addressing modes
@@ -81,6 +81,6 @@ A=5 X=6 PC=204
 
 ---
 
-## About
+About
 
 Built by **Nayan Adhikari**, a rising junior and incoming ECE student at PHSC. This project is part of my self-directed study in computer architecture.
