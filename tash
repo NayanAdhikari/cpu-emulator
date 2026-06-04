@@ -1,0 +1,32 @@
+[1mdiff --git a/readme.md b/readme.md[m
+[1mindex a868be4..1bc2193 100644[m
+[1m--- a/readme.md[m
+[1m+++ b/readme.md[m
+[36m@@ -19,9 +19,15 @@[m [mThis emulator models the fundamental **fetch → decode → execute** cycle of a[m
+ [m
+ | Opcode | Mnemonic | Description |[m
+ |--------|----------|-------------|[m
+[31m-| `0xA9` | LDA | Load a value into the Accumulator |[m
+[32m+[m[32m| `0xA9` | LDA Immediate | Load a value into the Accumulator |[m
+[32m+[m[32m| `0xA5` | LDA Zero Page | Load Accumulator from memory |[m
+ | `0xAA` | TAX | Transfer Accumulator to X |[m
+[31m-| `0xE8` | INX | Increment X register |[m
+[32m+[m[32m| `0x85` | STA | Store Accumulator into memory |[m
+[32m+[m[32m| `0x69` | ADC | Add with Carry |[m
+[32m+[m[32m| `0xE8` | INX | Increment X |[m
+[32m+[m[32m| `0xC8` | INY | Increment Y |[m
+[32m+[m[32m| `0xCA` | DEX | Decrement X |[m
+[32m+[m[32m| `0x88` | DEY | Decrement Y |[m
+ | `0x00` | BRK | Break / halt execution |[m
+ [m
+ ---[m
+[36m@@ -56,7 +62,8 @@[m [mg++ src/main.cpp src/cpu.cpp src/memory.cpp -o emulator -Wall -Wextra -std=c++17[m
+ ```[m
+ A=5 X=0 PC=202[m
+ A=5 X=5 PC=203[m
+[31m-A=5 X=6 PC=204[m
+[32m+[m[32mA=5 X=4 PC=204[m
+[32m+[m[32mA=5 X=4 PC=205A=5 X=4 PC=206[m
+ ```[m
+ [m
+ ---[m

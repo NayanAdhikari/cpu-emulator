@@ -19,9 +19,15 @@ Implemented Opcodes
 
 | Opcode | Mnemonic | Description |
 |--------|----------|-------------|
-| `0xA9` | LDA | Load a value into the Accumulator |
+| `0xA9` | LDA Immediate | Load a value into the Accumulator |
+| `0xA5` | LDA Zero Page | Load Accumulator from memory |
 | `0xAA` | TAX | Transfer Accumulator to X |
-| `0xE8` | INX | Increment X register |
+| `0x85` | STA | Store Accumulator into memory |
+| `0x69` | ADC | Add with Carry |
+| `0xE8` | INX | Increment X |
+| `0xC8` | INY | Increment Y |
+| `0xCA` | DEX | Decrement X |
+| `0x88` | DEY | Decrement Y |
 | `0x00` | BRK | Break / halt execution |
 
 ---
@@ -56,7 +62,8 @@ Expected output:
 ```
 A=5 X=0 PC=202
 A=5 X=5 PC=203
-A=5 X=6 PC=204
+A=5 X=4 PC=204
+A=5 X=4 PC=205A=5 X=4 PC=206
 ```
 
 ---
