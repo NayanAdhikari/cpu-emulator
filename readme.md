@@ -17,30 +17,32 @@ CPU, including:
 - Accurate per-instruction cycle counts
 - RESET vector support — PC is loaded from $FFFC/$FFFD on startup, matching
   real 6502 hardware behaviour
+- NMI and IRQ interrupt entry through the standard 6502 vectors
+- Binary program loading for raw assembled 6502 programs
+- A basic debugger with registers, memory dump, stepping, run, IRQ/NMI trigger,
+  and disassembly
 
-Implemented Opcodes
+Implemented CPU Coverage
 
-| Opcode | Mnemonic          | Description                          |
-|--------|-------------------|--------------------------------------|
-| 0xA9   | LDA Immediate     | Load value into Accumulator          |
-| 0xA5   | LDA Zero Page     | Load Accumulator from zero page      |
-| 0xAD   | LDA Absolute      | Load Accumulator from full address   |
-| 0x85   | STA Zero Page     | Store Accumulator to zero page       |
-| 0x8D   | STA Absolute      | Store Accumulator to full address    |
-| 0xAA   | TAX               | Transfer Accumulator to X            |
-| 0x69   | ADC Immediate     | Add with Carry                       |
-| 0xE8   | INX               | Increment X                          |
-| 0xC8   | INY               | Increment Y                          |
-| 0xCA   | DEX               | Decrement X                          |
-| 0x88   | DEY               | Decrement Y                          |
-| 0x48   | PHA               | Push Accumulator to stack            |
-| 0x68   | PLA               | Pull Accumulator from stack          |
-| 0x08   | PHP               | Push Processor Status to stack       |
-| 0x28   | PLP               | Pull Processor Status from stack     |
-| 0x20   | JSR               | Jump to Subroutine                   |
-| 0x60   | RTS               | Return from Subroutine               |
-| 0x4C   | JMP Absolute      | Jump to address                      |
-| 0x00   | BRK               | Push state, jump through IRQ vector  |
+- Full official 6502 instruction set: 56 documented mnemonics / 151 legal opcodes
+- All 13 official addressing modes:
+  - implied
+  - accumulator
+  - immediate
+  - zero page
+  - zero page,X
+  - zero page,Y
+  - relative
+  - absolute
+  - absolute,X
+  - absolute,Y
+  - indirect
+  - indexed indirect, `(addr,X)`
+  - indirect indexed, `(addr),Y`
+- Correct stack layout at `$0100`–`$01FF`
+- RESET, NMI, IRQ/BRK vectors at `$FFFC`, `$FFFA`, and `$FFFE`
+- 6502 JMP indirect page-wrap bug emulation
+- Base instruction cycles plus page-cross and branch-taken cycle penalties
 
 Project Structure
 
@@ -66,12 +68,47 @@ g++ src/main.cpp src/cpu.cpp src/memory.cpp -o emulator -Wall -Wextra -std=c++17
 ./emulator       # Mac/Linux
 ```
 
-Expected output:
-A=0x42 X=0x0 Y=0x0 SP=0xfe PC=0x204 P=0xa0 CYC=3
-A=0x42 X=0x0 Y=0x0 SP=0xfd PC=0x205 P=0xa0 CYC=6
-A=0x0  X=0x0 Y=0x0 SP=0xfd PC=0x207 P=0xa2 CYC=8
-A=0x42 X=0x0 Y=0x0 SP=0xfe PC=0x208 P=0xa0 CYC=12
-[BRK] Pushed state, jumped to IRQ vector.
+Optional CMake build:
+
+```bash
+cmake -S . -B build
+cmake --build build
+```
+
+Run the built-in sample:
+
+```bash
+./emulator
+```
+
+Load a raw binary at `$0600` and point the RESET vector there:
+
+```bash
+./emulator program.bin --load 0x0600
+```
+
+Start the debugger:
+
+```bash
+./emulator program.bin --load 0x0600 --debug
+```
+
+Debugger commands:
+
+```text
+s / step              Step one instruction
+r / run [count]       Run until BRK/halt or count instructions
+regs                  Print registers
+d / disasm [addr] [n] Disassemble n instructions
+m / mem addr [len]    Dump memory
+irq                   Trigger IRQ if interrupts are enabled
+nmi                   Trigger NMI
+q / quit              Exit debugger
+```
+
+`BRK` pushes PC/status and loads the IRQ vector. The runner halts on BRK by
+default so test programs stop cleanly; pass `--no-break-halt` to continue after
+the vector jump.
 
 What I Learned
 
@@ -84,6 +121,9 @@ What I Learned
 - How BRK works — pushes PC and status to the stack, jumps through the IRQ vector
 - How hardware startup works — reading the RESET vector instead of hardcoding an address
 - Accurate cycle counting using a per-opcode lookup table
+- How addressing modes can be shared across many opcodes without duplicating
+  instruction logic
+- How a debugger/disassembler can use the same opcode metadata as the CPU core
 - C++ concepts including structs, references, and header files
 - Using Git and GitHub for version control
 
@@ -96,11 +136,14 @@ Roadmap
 - [x] Jump instructions (JMP)
 - [x] Accurate per-instruction cycle counts
 - [x] RESET vector support
-- [ ] Implement the full 6502 instruction set (~56 opcodes)
-- [ ] Add all 13 addressing modes
-- [ ] Implement interrupt handling (NMI, IRQ)
-- [ ] Load and execute real assembled programs from binary files
-- [ ] Add a basic debugger / disassembler view
+- [x] Implement the full official 6502 instruction set (~56 mnemonics)
+- [x] Add all 13 addressing modes
+- [x] Implement interrupt handling (NMI, IRQ)
+- [x] Load and execute real assembled programs from binary files
+- [x] Add a basic debugger / disassembler view
+- [ ] Add automated opcode test ROMs / nestest-style validation
+- [ ] Add memory-mapped I/O hooks
+- [ ] Add optional illegal opcode support
 
 ## About
 
