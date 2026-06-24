@@ -259,6 +259,92 @@ InstructionInfo decodeInfo(uint8_t opcode)
     case 0x8A: return {"TXA", Mode::Implied, bytesFor(Mode::Implied)};
     case 0x9A: return {"TXS", Mode::Implied, bytesFor(Mode::Implied)};
     case 0x98: return {"TYA", Mode::Implied, bytesFor(Mode::Implied)};
+
+    // A trailing * marks undocumented opcodes. They are decoded so the
+    // disassembler can show useful names even though execution requires
+    // enableIllegalOpcodes to be true.
+    case 0x0B: case 0x2B: return {"ANC*", Mode::Immediate, bytesFor(Mode::Immediate)};
+    case 0x4B: return {"ALR*", Mode::Immediate, bytesFor(Mode::Immediate)};
+    case 0x6B: return {"ARR*", Mode::Immediate, bytesFor(Mode::Immediate)};
+    case 0xCB: return {"AXS*", Mode::Immediate, bytesFor(Mode::Immediate)};
+    case 0xEB: return {"SBC*", Mode::Immediate, bytesFor(Mode::Immediate)};
+
+    case 0xA3: return {"LAX*", Mode::IndexedIndirect, bytesFor(Mode::IndexedIndirect)};
+    case 0xA7: return {"LAX*", Mode::ZeroPage, bytesFor(Mode::ZeroPage)};
+    case 0xAF: return {"LAX*", Mode::Absolute, bytesFor(Mode::Absolute)};
+    case 0xB3: return {"LAX*", Mode::IndirectIndexed, bytesFor(Mode::IndirectIndexed)};
+    case 0xB7: return {"LAX*", Mode::ZeroPageY, bytesFor(Mode::ZeroPageY)};
+    case 0xBF: return {"LAX*", Mode::AbsoluteY, bytesFor(Mode::AbsoluteY)};
+
+    case 0x83: return {"SAX*", Mode::IndexedIndirect, bytesFor(Mode::IndexedIndirect)};
+    case 0x87: return {"SAX*", Mode::ZeroPage, bytesFor(Mode::ZeroPage)};
+    case 0x8F: return {"SAX*", Mode::Absolute, bytesFor(Mode::Absolute)};
+    case 0x97: return {"SAX*", Mode::ZeroPageY, bytesFor(Mode::ZeroPageY)};
+
+    case 0x03: return {"SLO*", Mode::IndexedIndirect, bytesFor(Mode::IndexedIndirect)};
+    case 0x07: return {"SLO*", Mode::ZeroPage, bytesFor(Mode::ZeroPage)};
+    case 0x0F: return {"SLO*", Mode::Absolute, bytesFor(Mode::Absolute)};
+    case 0x13: return {"SLO*", Mode::IndirectIndexed, bytesFor(Mode::IndirectIndexed)};
+    case 0x17: return {"SLO*", Mode::ZeroPageX, bytesFor(Mode::ZeroPageX)};
+    case 0x1B: return {"SLO*", Mode::AbsoluteY, bytesFor(Mode::AbsoluteY)};
+    case 0x1F: return {"SLO*", Mode::AbsoluteX, bytesFor(Mode::AbsoluteX)};
+
+    case 0x23: return {"RLA*", Mode::IndexedIndirect, bytesFor(Mode::IndexedIndirect)};
+    case 0x27: return {"RLA*", Mode::ZeroPage, bytesFor(Mode::ZeroPage)};
+    case 0x2F: return {"RLA*", Mode::Absolute, bytesFor(Mode::Absolute)};
+    case 0x33: return {"RLA*", Mode::IndirectIndexed, bytesFor(Mode::IndirectIndexed)};
+    case 0x37: return {"RLA*", Mode::ZeroPageX, bytesFor(Mode::ZeroPageX)};
+    case 0x3B: return {"RLA*", Mode::AbsoluteY, bytesFor(Mode::AbsoluteY)};
+    case 0x3F: return {"RLA*", Mode::AbsoluteX, bytesFor(Mode::AbsoluteX)};
+
+    case 0x43: return {"SRE*", Mode::IndexedIndirect, bytesFor(Mode::IndexedIndirect)};
+    case 0x47: return {"SRE*", Mode::ZeroPage, bytesFor(Mode::ZeroPage)};
+    case 0x4F: return {"SRE*", Mode::Absolute, bytesFor(Mode::Absolute)};
+    case 0x53: return {"SRE*", Mode::IndirectIndexed, bytesFor(Mode::IndirectIndexed)};
+    case 0x57: return {"SRE*", Mode::ZeroPageX, bytesFor(Mode::ZeroPageX)};
+    case 0x5B: return {"SRE*", Mode::AbsoluteY, bytesFor(Mode::AbsoluteY)};
+    case 0x5F: return {"SRE*", Mode::AbsoluteX, bytesFor(Mode::AbsoluteX)};
+
+    case 0x63: return {"RRA*", Mode::IndexedIndirect, bytesFor(Mode::IndexedIndirect)};
+    case 0x67: return {"RRA*", Mode::ZeroPage, bytesFor(Mode::ZeroPage)};
+    case 0x6F: return {"RRA*", Mode::Absolute, bytesFor(Mode::Absolute)};
+    case 0x73: return {"RRA*", Mode::IndirectIndexed, bytesFor(Mode::IndirectIndexed)};
+    case 0x77: return {"RRA*", Mode::ZeroPageX, bytesFor(Mode::ZeroPageX)};
+    case 0x7B: return {"RRA*", Mode::AbsoluteY, bytesFor(Mode::AbsoluteY)};
+    case 0x7F: return {"RRA*", Mode::AbsoluteX, bytesFor(Mode::AbsoluteX)};
+
+    case 0xC3: return {"DCP*", Mode::IndexedIndirect, bytesFor(Mode::IndexedIndirect)};
+    case 0xC7: return {"DCP*", Mode::ZeroPage, bytesFor(Mode::ZeroPage)};
+    case 0xCF: return {"DCP*", Mode::Absolute, bytesFor(Mode::Absolute)};
+    case 0xD3: return {"DCP*", Mode::IndirectIndexed, bytesFor(Mode::IndirectIndexed)};
+    case 0xD7: return {"DCP*", Mode::ZeroPageX, bytesFor(Mode::ZeroPageX)};
+    case 0xDB: return {"DCP*", Mode::AbsoluteY, bytesFor(Mode::AbsoluteY)};
+    case 0xDF: return {"DCP*", Mode::AbsoluteX, bytesFor(Mode::AbsoluteX)};
+
+    case 0xE3: return {"ISB*", Mode::IndexedIndirect, bytesFor(Mode::IndexedIndirect)};
+    case 0xE7: return {"ISB*", Mode::ZeroPage, bytesFor(Mode::ZeroPage)};
+    case 0xEF: return {"ISB*", Mode::Absolute, bytesFor(Mode::Absolute)};
+    case 0xF3: return {"ISB*", Mode::IndirectIndexed, bytesFor(Mode::IndirectIndexed)};
+    case 0xF7: return {"ISB*", Mode::ZeroPageX, bytesFor(Mode::ZeroPageX)};
+    case 0xFB: return {"ISB*", Mode::AbsoluteY, bytesFor(Mode::AbsoluteY)};
+    case 0xFF: return {"ISB*", Mode::AbsoluteX, bytesFor(Mode::AbsoluteX)};
+
+    case 0x1A: case 0x3A: case 0x5A: case 0x7A: case 0xDA: case 0xFA:
+        return {"NOP*", Mode::Implied, bytesFor(Mode::Implied)};
+    case 0x80: case 0x82: case 0x89: case 0xC2: case 0xE2:
+        return {"NOP*", Mode::Immediate, bytesFor(Mode::Immediate)};
+    case 0x04: case 0x44: case 0x64:
+        return {"NOP*", Mode::ZeroPage, bytesFor(Mode::ZeroPage)};
+    case 0x14: case 0x34: case 0x54: case 0x74: case 0xD4: case 0xF4:
+        return {"NOP*", Mode::ZeroPageX, bytesFor(Mode::ZeroPageX)};
+    case 0x0C:
+        return {"NOP*", Mode::Absolute, bytesFor(Mode::Absolute)};
+    case 0x1C: case 0x3C: case 0x5C: case 0x7C: case 0xDC: case 0xFC:
+        return {"NOP*", Mode::AbsoluteX, bytesFor(Mode::AbsoluteX)};
+
+    case 0x02: case 0x12: case 0x22: case 0x32: case 0x42: case 0x52:
+    case 0x62: case 0x72: case 0x92: case 0xB2: case 0xD2: case 0xF2:
+        return {"KIL*", Mode::Implied, bytesFor(Mode::Implied)};
     }
 
     return {"???", Mode::Implied, 1};
@@ -291,6 +377,71 @@ bool addsPageCycle(uint8_t opcode)
     case 0xBE: case 0xBC:
     case 0xDD: case 0xD9: case 0xD1:
     case 0xFD: case 0xF9: case 0xF1:
+        return true;
+    default:
+        return false;
+    }
+}
+
+uint8_t illegalOpcodeCycles(uint8_t opcode)
+{
+    // Undocumented opcodes still take real CPU time. This table gives their
+    // base cycle counts, separate from CYCLE_TABLE so official opcode timing
+    // stays easy to audit.
+    switch (opcode) {
+    case 0x0B: case 0x2B: case 0x4B: case 0x6B: case 0x80:
+    case 0x82: case 0x89: case 0xC2: case 0xCB: case 0xE2: case 0xEB:
+        return 2;
+
+    case 0x04: case 0x07: case 0x1A: case 0x27: case 0x3A:
+    case 0x44: case 0x47: case 0x5A: case 0x64: case 0x67:
+    case 0x7A: case 0x87: case 0xA7: case 0xC7: case 0xDA:
+    case 0xE7: case 0xFA:
+        return 3;
+
+    case 0x0C: case 0x0F: case 0x14: case 0x17: case 0x2F:
+    case 0x34: case 0x37: case 0x4F: case 0x54: case 0x57:
+    case 0x6F: case 0x74: case 0x77: case 0x8F: case 0x97:
+    case 0xAF: case 0xB7: case 0xCF: case 0xD4: case 0xD7:
+    case 0xEF: case 0xF4: case 0xF7:
+        return 4;
+
+    case 0x1C: case 0x3C: case 0x5C: case 0x7C: case 0xDC: case 0xFC:
+        return 4;
+
+    case 0xBF:
+        return 4;
+
+    case 0xB3:
+        return 5;
+
+    case 0xA3:
+        return 6;
+
+    case 0x03: case 0x1B: case 0x1F: case 0x23: case 0x3B:
+    case 0x3F: case 0x43: case 0x5B: case 0x5F: case 0x63:
+    case 0x7B: case 0x7F: case 0x83: case 0xC3: case 0xDB:
+    case 0xDF: case 0xE3: case 0xFB: case 0xFF:
+        return 7;
+
+    case 0x13: case 0x33: case 0x53: case 0x73: case 0x93:
+    case 0xD3: case 0xF3:
+        return 8;
+
+    case 0x02: case 0x12: case 0x22: case 0x32: case 0x42: case 0x52:
+    case 0x62: case 0x72: case 0x92: case 0xB2: case 0xD2: case 0xF2:
+        return 0;
+    }
+
+    return 0;
+}
+
+bool illegalNopAddsPageCycle(uint8_t opcode)
+{
+    // Some unofficial NOPs still perform an address calculation. The absolute,X
+    // versions can spend an extra cycle when that calculation crosses a page.
+    switch (opcode) {
+    case 0x1C: case 0x3C: case 0x5C: case 0x7C: case 0xDC: case 0xFC:
         return true;
     default:
         return false;
@@ -958,10 +1109,196 @@ void CPU::execute(uint8_t opcode, Memory& mem)
     case 0x98: A = Y; setZN(A); break;
 
     default:
+        if (enableIllegalOpcodes && executeIllegalOpcode(opcode, mem)) {
+            break;
+        }
+
         std::cout << "Unknown opcode: 0x" << hexByte(opcode) << "\n";
         isHalted = true;
         break;
     }
+}
+
+bool CPU::executeIllegalOpcode(uint8_t opcode, Memory& mem)
+{
+    // These are common undocumented NMOS 6502 opcodes. They are useful for
+    // compatibility experiments, but they stay optional because real official
+    // 6502 code should never depend on them.
+    bool pageCrossed = false;
+    auto mode = decodeInfo(opcode).mode;
+
+    auto readModifyWrite = [&](auto operation) {
+        // Many illegal opcodes combine a memory modification with an A-register
+        // operation. This helper performs the shared read -> change -> write
+        // part and returns the new memory value for the second half.
+        uint16_t address = operandAddress(mem, mode);
+        uint8_t value = mem.read(address);
+        value = operation(value);
+        mem.write(address, value);
+        return value;
+    };
+
+    switch (opcode) {
+    case 0x1A: case 0x3A: case 0x5A: case 0x7A: case 0xDA: case 0xFA:
+        // Single-byte unofficial NOPs: consume time, change nothing.
+        cycles += illegalOpcodeCycles(opcode);
+        return true;
+
+    case 0x80: case 0x82: case 0x89: case 0xC2: case 0xE2:
+    case 0x04: case 0x44: case 0x64:
+    case 0x14: case 0x34: case 0x54: case 0x74: case 0xD4: case 0xF4:
+    case 0x0C:
+    case 0x1C: case 0x3C: case 0x5C: case 0x7C: case 0xDC: case 0xFC:
+        readOperand(mem, mode, &pageCrossed);
+        cycles += illegalOpcodeCycles(opcode);
+        if (pageCrossed && illegalNopAddsPageCycle(opcode)) {
+            cycles++;
+        }
+        return true;
+
+    case 0x0B: case 0x2B:
+        // ANC*: AND immediate with A, then copy bit 7 of A into carry.
+        A &= readOperand(mem, AddressMode::Immediate);
+        setZN(A);
+        setFlag(CARRY, getFlag(NEGATIVE));
+        cycles += illegalOpcodeCycles(opcode);
+        return true;
+
+    case 0x4B:
+        // ALR*: AND immediate with A, then logical shift right.
+        A &= readOperand(mem, AddressMode::Immediate);
+        setFlag(CARRY, (A & 0x01) != 0);
+        A >>= 1;
+        setZN(A);
+        cycles += illegalOpcodeCycles(opcode);
+        return true;
+
+    case 0x6B: {
+        // ARR*: AND immediate, rotate right through carry, then set C/V from
+        // bits 6 and 5. Software rarely uses this outside compatibility tests.
+        A &= readOperand(mem, AddressMode::Immediate);
+        A = static_cast<uint8_t>((A >> 1) | (getFlag(CARRY) ? 0x80 : 0));
+        setZN(A);
+        setFlag(CARRY, (A & 0x40) != 0);
+        setFlag(OVERFLOW, ((A >> 6) ^ (A >> 5)) & 0x01);
+        cycles += illegalOpcodeCycles(opcode);
+        return true;
+    }
+
+    case 0xCB: {
+        // AXS*: compare (A & X) with immediate and store the subtraction in X.
+        uint8_t value = readOperand(mem, AddressMode::Immediate);
+        uint8_t source = static_cast<uint8_t>(A & X);
+        uint8_t result = static_cast<uint8_t>(source - value);
+        setFlag(CARRY, source >= value);
+        X = result;
+        setZN(X);
+        cycles += illegalOpcodeCycles(opcode);
+        return true;
+    }
+
+    case 0xEB:
+        // SBC* is an unofficial duplicate of SBC immediate.
+        sbc(readOperand(mem, AddressMode::Immediate));
+        cycles += illegalOpcodeCycles(opcode);
+        return true;
+
+    case 0xA3: case 0xA7: case 0xAF: case 0xB3: case 0xB7: case 0xBF:
+        // LAX*: load the same memory value into both A and X.
+        A = readOperand(mem, mode, &pageCrossed);
+        X = A;
+        setZN(A);
+        cycles += illegalOpcodeCycles(opcode);
+        if (pageCrossed && (opcode == 0xB3 || opcode == 0xBF)) {
+            cycles++;
+        }
+        return true;
+
+    case 0x83: case 0x87: case 0x8F: case 0x97:
+        // SAX*: store A & X to memory. Neither A nor X changes.
+        writeOperand(mem, mode, static_cast<uint8_t>(A & X));
+        cycles += illegalOpcodeCycles(opcode);
+        return true;
+
+    case 0x03: case 0x07: case 0x0F: case 0x13: case 0x17: case 0x1B: case 0x1F: {
+        // SLO*: ASL memory, then ORA the shifted value into A.
+        uint8_t value = readModifyWrite([&](uint8_t original) {
+            setFlag(CARRY, (original & 0x80) != 0);
+            return static_cast<uint8_t>(original << 1);
+        });
+        A |= value;
+        setZN(A);
+        cycles += illegalOpcodeCycles(opcode);
+        return true;
+    }
+
+    case 0x23: case 0x27: case 0x2F: case 0x33: case 0x37: case 0x3B: case 0x3F: {
+        // RLA*: ROL memory, then AND the rotated value with A.
+        uint8_t value = readModifyWrite([&](uint8_t original) {
+            bool oldCarry = getFlag(CARRY);
+            setFlag(CARRY, (original & 0x80) != 0);
+            return static_cast<uint8_t>((original << 1) | (oldCarry ? 1 : 0));
+        });
+        A &= value;
+        setZN(A);
+        cycles += illegalOpcodeCycles(opcode);
+        return true;
+    }
+
+    case 0x43: case 0x47: case 0x4F: case 0x53: case 0x57: case 0x5B: case 0x5F: {
+        // SRE*: LSR memory, then EOR the shifted value with A.
+        uint8_t value = readModifyWrite([&](uint8_t original) {
+            setFlag(CARRY, (original & 0x01) != 0);
+            return static_cast<uint8_t>(original >> 1);
+        });
+        A ^= value;
+        setZN(A);
+        cycles += illegalOpcodeCycles(opcode);
+        return true;
+    }
+
+    case 0x63: case 0x67: case 0x6F: case 0x73: case 0x77: case 0x7B: case 0x7F: {
+        // RRA*: ROR memory, then ADC the rotated value into A.
+        uint8_t value = readModifyWrite([&](uint8_t original) {
+            bool oldCarry = getFlag(CARRY);
+            setFlag(CARRY, (original & 0x01) != 0);
+            return static_cast<uint8_t>((original >> 1) | (oldCarry ? 0x80 : 0));
+        });
+        adc(value);
+        cycles += illegalOpcodeCycles(opcode);
+        return true;
+    }
+
+    case 0xC3: case 0xC7: case 0xCF: case 0xD3: case 0xD7: case 0xDB: case 0xDF: {
+        // DCP*: DEC memory, then CMP the decremented value with A.
+        uint8_t value = readModifyWrite([](uint8_t original) {
+            return static_cast<uint8_t>(original - 1);
+        });
+        compare(A, value);
+        cycles += illegalOpcodeCycles(opcode);
+        return true;
+    }
+
+    case 0xE3: case 0xE7: case 0xEF: case 0xF3: case 0xF7: case 0xFB: case 0xFF: {
+        // ISB/ISC*: INC memory, then SBC the incremented value from A.
+        uint8_t value = readModifyWrite([](uint8_t original) {
+            return static_cast<uint8_t>(original + 1);
+        });
+        sbc(value);
+        cycles += illegalOpcodeCycles(opcode);
+        return true;
+    }
+
+    case 0x02: case 0x12: case 0x22: case 0x32: case 0x42: case 0x52:
+    case 0x62: case 0x72: case 0x92: case 0xB2: case 0xD2: case 0xF2:
+        // KIL/JAM opcodes lock the CPU on real hardware. In the emulator,
+        // halting is the closest useful behavior.
+        std::cout << "[KIL] CPU locked by illegal halt opcode.\n";
+        isHalted = true;
+        return true;
+    }
+
+    return false;
 }
 
 std::string CPU::disassemble(const Memory& mem, uint16_t address, uint8_t* bytesUsed) const

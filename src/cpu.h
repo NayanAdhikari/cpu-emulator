@@ -22,6 +22,11 @@ struct CPU {
     // For small test programs, halting on BRK is much more convenient.
     bool haltOnBreak = true;
 
+    // Official 6502 programs should leave this off. Some old software and test
+    // ROMs use undocumented NMOS 6502 opcodes, so the runner can opt into a
+    // practical set of common illegal opcodes with --illegal.
+    bool enableIllegalOpcodes = false;
+
     // Registers are tiny storage locations inside the CPU itself.
     // They are much faster and smaller than memory.
     //
@@ -143,4 +148,5 @@ private:
     void sbc(uint8_t value);
 
     void execute(uint8_t opcode, Memory& mem);
+    bool executeIllegalOpcode(uint8_t opcode, Memory& mem);
 };

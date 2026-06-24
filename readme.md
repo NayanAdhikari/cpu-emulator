@@ -21,6 +21,10 @@ CPU, including:
 - Binary program loading for raw assembled 6502 programs
 - A basic debugger with registers, memory dump, stepping, run, IRQ/NMI trigger,
   and disassembly
+- Memory-mapped console I/O hooks for simple program output/input
+- Optional common undocumented opcode support, enabled only when requested
+- Automated CPU regression tests for core instructions, stack behavior, I/O,
+  and illegal opcode toggling
 
 Implemented CPU Coverage
 
@@ -43,6 +47,18 @@ Implemented CPU Coverage
 - RESET, NMI, IRQ/BRK vectors at `$FFFC`, `$FFFA`, and `$FFFE`
 - 6502 JMP indirect page-wrap bug emulation
 - Base instruction cycles plus page-cross and branch-taken cycle penalties
+- Common unofficial NMOS 6502 opcodes can be enabled with `--illegal`
+
+Memory-Mapped I/O
+
+When console I/O is enabled with `--io`, these addresses behave like tiny
+devices:
+
+| Address | Behavior |
+|---------|----------|
+| `$F001` | Store a byte here to print it as a character |
+| `$F004` | Read `1` if queued input is available, otherwise `0` |
+| `$F005` | Read and consume one queued input byte |
 
 Project Structure
 
@@ -63,9 +79,11 @@ Requirements: g++ with C++17 support
 git clone https://github.com/NayanAdhikari/cpu-emulator.git
 cd cpu-emulator
 g++ src/main.cpp src/cpu.cpp src/memory.cpp -o emulator -Wall -Wextra -std=c++17
+g++ tests/cpu_tests.cpp src/cpu.cpp src/memory.cpp -o cpu_tests -Wall -Wextra -std=c++17
 
 ./emulator.exe   # Windows
 ./emulator       # Mac/Linux
+./cpu_tests.exe  # Windows tests
 ```
 
 Optional CMake build:
@@ -73,6 +91,7 @@ Optional CMake build:
 ```bash
 cmake -S . -B build
 cmake --build build
+ctest --test-dir build
 ```
 
 Run the built-in sample:
@@ -85,6 +104,24 @@ Load a raw binary at `$0600` and point the RESET vector there:
 
 ```bash
 ./emulator program.bin --load 0x0600
+```
+
+Run with memory-mapped console I/O:
+
+```bash
+./emulator program.bin --load 0x0600 --io
+```
+
+Queue input bytes for `$F005`:
+
+```bash
+./emulator program.bin --load 0x0600 --io --input HELLO
+```
+
+Enable common undocumented opcodes:
+
+```bash
+./emulator program.bin --load 0x0600 --illegal
 ```
 
 Start the debugger:
@@ -109,6 +146,18 @@ q / quit              Exit debugger
 `BRK` pushes PC/status and loads the IRQ vector. The runner halts on BRK by
 default so test programs stop cleanly; pass `--no-break-halt` to continue after
 the vector jump.
+
+Run automated tests:
+
+```bash
+./cpu_tests
+```
+
+Expected result:
+
+```text
+All CPU emulator tests passed.
+```
 
 What I Learned
 
@@ -141,9 +190,12 @@ Roadmap
 - [x] Implement interrupt handling (NMI, IRQ)
 - [x] Load and execute real assembled programs from binary files
 - [x] Add a basic debugger / disassembler view
-- [ ] Add automated opcode test ROMs / nestest-style validation
-- [ ] Add memory-mapped I/O hooks
-- [ ] Add optional illegal opcode support
+- [x] Add automated opcode regression tests
+- [x] Add memory-mapped I/O hooks
+- [x] Add optional illegal opcode support
+- [ ] Add external test ROM / nestest trace comparison
+- [ ] Add a small demo assembly program that prints through `$F001`
+- [ ] Add breakpoints and watchpoints to the debugger
 
 ## About
 

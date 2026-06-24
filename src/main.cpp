@@ -6,7 +6,6 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
-
 #include "cpu.h"
 #include "memory.h"
 
@@ -71,7 +70,7 @@ void printUsage(const char* exe)
     std::cout
         << "Usage:\n"
         << "  " << exe << "\n"
-        << "  " << exe << " program.bin [--load 0x0600] [--pc 0x0600] [--debug] [--max 1000000]\n\n"
+        << "  " << exe << " program.bin [--load 0x0600] [--pc 0x0600] [--debug] [--io] [--input text] [--illegal] [--max 1000000]\n\n"
         << "Debugger commands: s/step, r/run [count], regs, d/disasm [addr] [count],\n"
         << "                   m/mem addr [len], irq, nmi, q/quit\n";
 }
@@ -205,9 +204,11 @@ int main(int argc, char* argv[])
         uint16_t pcAddress = loadAddress;
         bool pcProvided = false;
         bool debug = false;
+        bool enableIO = false;
         bool trace = true;
         uint64_t maxSteps = 1000000;
         std::string binaryPath;
+        std::string inputText;
 
         for (int i = 1; i < argc; i++) {
             // Minimal argument parser. Options that need a value consume the
@@ -227,6 +228,13 @@ int main(int argc, char* argv[])
             } else if (arg == "--debug") {
                 debug = true;
                 trace = false;
+            } else if (arg == "--io") {
+                enableIO = true;
+            } else if (arg == "--input" && i + 1 < argc) {
+                enableIO = true;
+                inputText = argv[++i];
+            } else if (arg == "--illegal") {
+                cpu.enableIllegalOpcodes = true;
             } else if (arg == "--quiet") {
                 trace = false;
             } else if (arg == "--no-break-halt") {
@@ -262,6 +270,15 @@ int main(int argc, char* argv[])
             std::cout << "Loaded " << program.size() << " bytes at $"
                       << std::uppercase << std::hex << std::setw(4) << std::setfill('0')
                       << loadAddress << std::dec << "\n";
+        }
+
+        if (enableIO) {
+            // Console I/O uses normal CPU memory accesses:
+            //   store byte to $F001 -> print that character
+            //   read $F004          -> 1 if input is waiting, 0 otherwise
+            //   read $F005          -> consume one queued input byte
+            mem.enableConsoleIO(std::cout);
+            mem.queueInput(inputText.c_str());
         }
 
         // Set reset/NMI/IRQ vectors after loading memory, then reset the CPU so
