@@ -334,9 +334,3 @@ that's exactly why this emulator keeps the two `reset()`s separate.
 > numbered mailboxes, one at a time, forever. It keeps a few numbers in its
 > pockets, leaves itself sticky notes about what just happened, and can
 > stack up "come back here" bookmarks when it goes off to do a side task.
-
----
-
-*This guide covers `cpu.cpp`, `cpu.h`, `main.cpp`, and `memory.h`/
-`memory.cpp`. Share more files and we'll keep this growing into one
-friendly story of the whole repo.*
