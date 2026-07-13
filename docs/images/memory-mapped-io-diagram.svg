@@ -1,0 +1,53 @@
+<svg width="680" height="300" viewBox="0 0 680 300" xmlns="http://www.w3.org/2000/svg" role="img" font-family="Helvetica, Arial, sans-serif">
+<title>Memory-mapped I/O: most mailboxes are plain, three are magic</title>
+<desc>The 64 kilobyte memory array is mostly ordinary storage, but addresses F001, F004, and F005 are wired to console output and a queued input buffer instead of just holding a byte.</desc>
+<defs>
+  <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="#5F5E5A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+</defs>
+
+<rect x="0" y="0" width="680" height="300" fill="#ffffff"/>
+
+<g>
+  <rect x="40" y="30" width="340" height="230" rx="16" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="1"/>
+  <text x="60" y="54" font-size="14" font-weight="600" fill="#444441">Memory: 65,536 mailboxes</text>
+  <text x="60" y="72" font-size="12" fill="#5F5E5A">$0000 – $FFFF, mostly plain storage</text>
+</g>
+<g fill="#F1EFE8" stroke="#5F5E5A" stroke-width="1">
+  <rect x="65" y="90" width="60" height="34" rx="6"/>
+  <rect x="135" y="90" width="60" height="34" rx="6"/>
+  <rect x="65" y="134" width="60" height="34" rx="6"/>
+  <rect x="135" y="134" width="60" height="34" rx="6"/>
+  <rect x="65" y="178" width="60" height="34" rx="6"/>
+</g>
+
+<g>
+  <rect x="220" y="90" width="140" height="34" rx="6" fill="#FAECE7" stroke="#993C1D" stroke-width="1.5"/>
+  <text x="290" y="107" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#712B13">$F001 IO_OUT</text>
+</g>
+<g>
+  <rect x="220" y="134" width="140" height="34" rx="6" fill="#FAECE7" stroke="#993C1D" stroke-width="1.5"/>
+  <text x="290" y="151" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#712B13">$F004 IO_IN_READY</text>
+</g>
+<g>
+  <rect x="220" y="178" width="140" height="34" rx="6" fill="#FAECE7" stroke="#993C1D" stroke-width="1.5"/>
+  <text x="290" y="195" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#712B13">$F005 IO_IN</text>
+</g>
+
+<line x1="360" y1="107" x2="440" y2="107" stroke="#5F5E5A" stroke-width="1.5" marker-end="url(#arrow)"/>
+<line x1="440" y1="185" x2="360" y2="151" stroke="#5F5E5A" stroke-width="1.5" marker-end="url(#arrow)"/>
+<line x1="440" y1="230" x2="360" y2="195" stroke="#5F5E5A" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+<g>
+  <rect x="440" y="80" width="200" height="60" rx="10" fill="#FAECE7" stroke="#993C1D" stroke-width="1"/>
+  <text x="540" y="100" text-anchor="middle" font-size="14" font-weight="600" fill="#712B13">Console output</text>
+  <text x="540" y="120" text-anchor="middle" font-size="12" fill="#993C1D">prints the character</text>
+</g>
+<g>
+  <rect x="440" y="190" width="200" height="70" rx="10" fill="#FAECE7" stroke="#993C1D" stroke-width="1"/>
+  <text x="540" y="212" text-anchor="middle" font-size="14" font-weight="600" fill="#712B13">Input queue</text>
+  <text x="540" y="230" text-anchor="middle" font-size="12" fill="#993C1D">a deque, first in first out</text>
+  <text x="540" y="246" text-anchor="middle" font-size="12" fill="#993C1D">front byte hands itself over</text>
+</g>
+</svg>
