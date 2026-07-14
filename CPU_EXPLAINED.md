@@ -114,7 +114,7 @@ flag up (`IRQ_DISABLE`).
 The original chip designers only *meant* to support some instruction bytes.
 But due to how the chip's insides worked, the leftover unused byte values
 accidentally *also* did something. Some old games ended up depending on
-these accidental behaviors! `executeIllegalOpcode()` recreates them for
+these accidental behaviors. `executeIllegalOpcode()` recreates them for
 compatibility — they're off by default (`enableIllegalOpcodes`).
 
 ## 9. The disassembler = a translator
