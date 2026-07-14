@@ -38,8 +38,6 @@ uint8_t opcode = fetch(mem);   // 1. Fetch
 execute(opcode, mem);          // 2. Decode + 3. Execute
 ```
 
-That's it. That's the whole engine. Everything else in the file is detail
-about *what* to do for each of the 256 possible instruction bytes.
 
 ![The fetch-decode-execute cycle](docs/images/fetch-decode-execute-cycle.svg)
 
