@@ -199,5 +199,5 @@ Roadmap
 
 ## About
 
-Built by Nayan Adhikari, a rising junior and incoming ECE student at PHSC.
-This project is part of my self-directed study in computer architecture.
+Built by Nayan Adhikari, a rising junior at PHSC.
+This project is part of my self-directed study in computer architecture and for my intended ECE degree.
